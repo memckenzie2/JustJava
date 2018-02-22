@@ -10,12 +10,13 @@
  package com.example.android.justjava;
 
 
-
-         import android.os.Bundle;
-         import android.support.v7.app.AppCompatActivity;
-         import android.view.View;
-         import android.widget.TextView;
-         import java.text.NumberFormat;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * This app displays an order form to order coffee.
@@ -33,8 +34,14 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
+        CheckBox whipped = (CheckBox) findViewById(R.id.whipped);
+        boolean whipCheck = whipped.isChecked();
+        CheckBox choc = (CheckBox) findViewById(R.id.choc);
+        boolean chocCheck = choc.isChecked();
+        EditText nameID = findViewById(R.id.name);
+        Editable name = nameID.getText();
         int calcPrice = calculatePrice();
-        String priceMessage = createOrderSummary(calcPrice);
+        String priceMessage = createOrderSummary(name, calcPrice, whipCheck, chocCheck);
         displayMessage(priceMessage);
     }
 
@@ -92,8 +99,8 @@ public class MainActivity extends AppCompatActivity {
      * @param price is the number of cups of coffee ordered
      * @return message with order summary
      */
-    private String createOrderSummary(int price) {
-        String priceMessage = "Name: Kaptain Kunal"+ "\nQuantity: " + quantity + "\nTotal: $" + price + "\nThank You!";
+    private String createOrderSummary(Editable name, int price, boolean whipCheck, boolean chocCheck) {
+        String priceMessage = "Name:" + name+ "\nWhipped Cream: " + whipCheck + "\nChocolate: " + chocCheck + "\nQuantity: " + quantity + "\nTotal: $" + price + "\nThank You!";
         return priceMessage;
     }
 
