@@ -11,6 +11,7 @@
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -44,7 +45,15 @@ public class MainActivity extends AppCompatActivity {
         Editable name = nameID.getText();
         int calcPrice = calculatePrice(whipCheck, chocCheck);
         String priceMessage = createOrderSummary(name, calcPrice, whipCheck, chocCheck);
-        displayMessage(priceMessage);
+
+        Intent emailOrder = new Intent(Intent.ACTION_SENDTO);
+        
+        if (emailOrder.resolveActivity(getPackageManager()) != null){
+            startActivity(emailOrder);
+        }
+
+
+        //displayMessage(priceMessage);
     }
 
     public void increment(View view) {
