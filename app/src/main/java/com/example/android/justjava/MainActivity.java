@@ -47,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
         String priceMessage = createOrderSummary(name, calcPrice, whipCheck, chocCheck);
 
         Intent emailOrder = new Intent(Intent.ACTION_SENDTO);
-        
+        //start here
+
         if (emailOrder.resolveActivity(getPackageManager()) != null){
             startActivity(emailOrder);
         }
