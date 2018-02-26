@@ -10,8 +10,8 @@
  package com.example.android.justjava;
 
 
-import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -20,6 +20,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.NumberFormat;
 
 /**
  * This app displays an order form to order coffee.
@@ -47,7 +49,10 @@ public class MainActivity extends AppCompatActivity {
         String priceMessage = createOrderSummary(name, calcPrice, whipCheck, chocCheck);
 
         Intent emailOrder = new Intent(Intent.ACTION_SENDTO);
-        //start here
+        emailOrder.setData(Uri.parse("mailto:"));
+        emailOrder.putExtra(Intent.EXTRA_EMAIL, "");
+        emailOrder.putExtra(Intent.EXTRA_SUBJECT, "Just Java Order for" + name);
+        emailOrder.putExtra(Intent.EXTRA_TEXT, priceMessage);
 
         if (emailOrder.resolveActivity(getPackageManager()) != null){
             startActivity(emailOrder);
@@ -95,10 +100,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * This method displays the given text on the screen.
      * */
-     private void displayMessage(String message) {
-     TextView priceTextView = (TextView) findViewById(R.id.order_summary_text_view);
-     priceTextView.setText(message);
-     }
+
 
 
 
@@ -131,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
      * @return message with order summary
      */
     private String createOrderSummary(Editable name, int price, boolean whipCheck, boolean chocCheck) {
-        String priceMessage = "Name:" + name+ "\nWhipped Cream: " + whipCheck + "\nChocolate: " + chocCheck + "\nQuantity: " + quantity + "\nTotal: $" + price + "\nThank You!";
+        String priceMessage = getString(R.string.order_summary_name, name) + "\n" +getString(R.string.order_summary_whipped_cream, whipCheck) + "\n" +getString(R.string.order_summary_chocolate, chocCheck) + "\n" + getString(R.string.order_summary_price, NumberFormat.getCurrencyInstance().format(price)) + "\n" + "\n" + getString(R.string.thank_you) ;
         return priceMessage;
     }
 
